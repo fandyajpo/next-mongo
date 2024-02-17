@@ -10,7 +10,7 @@ interface Props
 
 const getDealer = async (page: number) => {
   const req = await fetch(
-    `http://localhost:3002/api/dealer?page=${page}&limit=10`,
+    `${process.env.NEXT_PUBLIC_URL}/api/dealer?page=${page}&limit=10`,
     {
       method: "GET",
       next: {

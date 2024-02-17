@@ -12,7 +12,7 @@ interface Props
 
 const getProspect = async (page: number) => {
   const req = await fetch(
-    `http://localhost:3002/api/prospect?page=${page}&limit=10`,
+    `${process.env.NEXT_PUBLIC_URL}/api/prospect?page=${page}&limit=10`,
     {
       method: "GET",
       next: {
