@@ -54,13 +54,27 @@ export const getProspectById = actionClient(async (id: string) => {
 export const updateProspect = actionClient(
   async (prevState: ProspectInterface, data: FormData) => {
     try {
-      const prospect = await ProspectlModel.findById(prevState._id);
+      const customer = data.get("customer");
+      const address = data.get("address");
+      const phone = data.get("phone");
+      const source = data.get("source");
+      const description = data.get("description");
 
-      // return console.log(prospect);
-      // return prospect;
+      await ProspectlModel.findByIdAndUpdate(prevState?._id, {
+        customer: customer,
+        address: address,
+        phone: phone,
+        source: source,
+        description: description,
+        createdAt: new Date().toISOString(),
+        createdBy: "System",
+      });
+
+      revalidateTag("prospects");
+
       return {
-        message: "Internal Server Error",
-        codeName: "INTERNAL_SERVER_ERROR",
+        message: "Success Create Prospect",
+        codeName: "SUCCESS",
       };
     } catch (error) {
       return {

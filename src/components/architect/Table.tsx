@@ -13,8 +13,9 @@ interface Widget {
   withEditButton?: boolean;
   withRemoveButton?: boolean;
   withCreateNewWidget?: boolean;
-  createNewWidgetUrl?: string;
   withExportExelWidget?: boolean;
+  ExelWidgetId?: string;
+  createNewWidgetUrl?: string;
 }
 
 interface Props<T> extends Widget {
@@ -39,7 +40,7 @@ const Table = <T,>(props: Props<T>) => {
             <p className="text-gray-500 text-xs my-0 ">{props?.description}</p>
           ) : null}
         </div>
-        <div className="flex gap-4">
+        <div className="flex gap-2">
           <div className="flex flex-col items-end">
             {props.description ? (
               <p className="text-gray-500 text-xs my-0 ">
@@ -50,6 +51,7 @@ const Table = <T,>(props: Props<T>) => {
               {props?.totalData ? props?.totalData : 0}
             </p>
           </div>
+
           {props.withCreateNewWidget && props?.createNewWidgetUrl ? (
             <div className="flex flex-col w-32 items-center justify-center bg-blue-500 rounded">
               <Link
@@ -58,6 +60,19 @@ const Table = <T,>(props: Props<T>) => {
               >
                 Create New
               </Link>
+            </div>
+          ) : null}
+          {props.withExportExelWidget ? (
+            <div className="flex flex-col w-32 items-center justify-center bg-orange-500 rounded">
+              <button
+                type="button"
+                onClick={() =>
+                  documentById(props?.ExelWidgetId as string).showModal()
+                }
+                className="font-semibold text-white text-sm my-0"
+              >
+                Export
+              </button>
             </div>
           ) : null}
         </div>

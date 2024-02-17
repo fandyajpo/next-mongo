@@ -16,14 +16,14 @@ export const GET = restClient(async (req: Request) => {
       message: "provide limit and page number",
     });
 
-  const dealer = await ProspectlModel.find()
+  const data = await ProspectlModel.find()
     .limit(Number(limit))
     .skip(rPage * Number(limit));
 
   const total = await ProspectlModel.find().countDocuments();
 
   return NextResponse.json({
-    data: dealer,
+    data,
     total,
   });
 });

@@ -198,7 +198,7 @@ const ProspectForm = (props: Props) => {
 
       <div className="mt-4">
         <Button
-          title="Create New"
+          title={props.method === "CREATE" ? "Save New" : "Save Changes"}
           type="submit"
           className="inline-block w-full rounded-lg bg-black px-5 py-3 font-medium text-white sm:w-auto"
         />

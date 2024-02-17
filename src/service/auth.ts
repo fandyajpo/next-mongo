@@ -15,28 +15,34 @@ export const createAuth = async <T>(payload: T) => {
   return await session.save();
 };
 
-export const getAuth = async () => {
-  const session = await getIronSession(cookies(), ironOption);
-  return session;
+export const getAuth = async (): Promise<string> => {
+  const session: IronSession<{ token: string }> = await getIronSession(
+    cookies(),
+    ironOption
+  );
+  return session?.token;
 };
 
-export const register = actionClient(async (data: FormData) => {
-  try {
-    const username = data.get("username");
-    const password = data.get("password") as string;
+export const register = actionClient(
+  async <T>(prevState: T, data: FormData) => {
+    try {
+      const username = data.get("username");
+      const password = data.get("password") as string;
 
-    const hashPassword = await createHashPassword(password);
+      console.log(username, password);
+      const hashPassword = await createHashPassword(password);
 
-    const salesRegister = await new SaleslModel({
-      username: username,
-      password: hashPassword,
-    }).save();
+      const salesRegister = await new SaleslModel({
+        username: username,
+        password: hashPassword,
+      }).save();
 
-    return console.log(salesRegister);
-  } catch (error) {
-    throw error;
+      return redirect("/");
+    } catch (error) {
+      throw error;
+    }
   }
-});
+);
 
 export const login = actionClient(async <T>(prevState: T, data: FormData) => {
   try {
@@ -63,8 +69,12 @@ export const login = actionClient(async <T>(prevState: T, data: FormData) => {
     const payload = await encrypt(salesAccount);
 
     await createAuth(payload);
-    redirect("/");
+    return {
+      message: "Success Create Prospect",
+      codeName: "SUCCESS",
+    };
   } catch (error) {
+    console.log(error);
     return {
       message: "Internal Server Error",
       codeName: "INTERNAL_SERVER_ERROR",

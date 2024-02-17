@@ -13,14 +13,7 @@ const CreateProspect = async (props: Props) => {
     props?.params?.id
   );
 
-  console.log(prospectById);
-
-  return (
-    <div>
-      <pre>{JSON.stringify(prospectById, null, 2)}</pre>
-      <ProspectForm method="UPDATE" data={prospectById} />
-    </div>
-  );
+  return <ProspectForm method="UPDATE" data={prospectById} />;
 };
 
 export default CreateProspect;

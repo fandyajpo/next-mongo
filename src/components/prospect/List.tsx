@@ -1,4 +1,4 @@
-import { DealerInterface } from "@/schema/dealer";
+import ExportProspect from "./Export";
 import Table from "../architect/Table";
 import { ProspectInterface } from "@/schema/prospect";
 import Paging from "../architect/Pagination";
@@ -30,9 +30,12 @@ const ProspectList = async (props: Props) => {
 
   return (
     <>
+      <ExportProspect data={prospect?.data} />
       <Table<ProspectInterface>
         withEditButton
         withRemoveButton
+        ExelWidgetId="prospectExel"
+        withExportExelWidget
         withCreateNewWidget
         createNewWidgetUrl="/prospect/create"
         title="PROSPECT"

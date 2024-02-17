@@ -16,14 +16,14 @@ export const GET = restClient(async (req: Request) => {
       message: "provide limit and page number",
     });
 
-  const dealer = await DealerlModel.find()
+  const data = await DealerlModel.find()
     .limit(Number(limit))
     .skip(rPage * Number(limit));
 
   const total = await DealerlModel.find().countDocuments();
 
   return NextResponse.json({
-    data: dealer,
+    data,
     total,
   });
 });

@@ -3,17 +3,26 @@ import { useFormState } from "react-dom";
 import { login } from "@/service/auth";
 import Button from "@/components/architect/Button";
 import { FormResponse } from "@/types";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 const LoginForm = () => {
+  const router = useRouter();
   const [formState, formAction] = useFormState<FormResponse>(login, {
     message: "",
     codeName: "",
   });
 
+  useEffect(() => {
+    if (formState.codeName === "SUCCESS") {
+      router.replace("/");
+    }
+  }, [formState.codeName]);
+
   return (
     <form action={formAction} className="mt-8 grid grid-cols-6 gap-6">
       <div className="col-span-6 ">
-        {formState?.message ? (
-          <p className="text-red-500 rounded text-sm font-semibold animate-pulse bg-red-500/10 border border-red-500 p-2 my-2">
+        {formState.codeName === "SUCCESS" && formState?.message ? (
+          <p className="text-green-500 rounded text-sm font-semibold animate-pulse bg-green-500/10 border border-green-500 p-2 my-2">
             {formState?.message}
           </p>
         ) : null}
@@ -52,7 +61,7 @@ const LoginForm = () => {
 
       <div className="col-span-6">
         <p className="text-sm text-gray-500">
-          By having an account, you agree to our{" "}
+          Welcome buddy,{" "}
           <a href="#" className="text-gray-700 underline">
             terms and conditions
           </a>{" "}

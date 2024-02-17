@@ -1,25 +1,39 @@
 import { DealerInterface } from "@/schema/dealer";
 import Table from "../architect/Table";
-// const getDealer = async () => {
-//   const req = await fetch("http://localhost:3002/api/dealer", {
-//     method: "GET",
-//   });
+import { Params } from "@/types";
 
-//   const res = await req.json();
+interface Props
+  extends Params<{
+    params: { [key: string]: string | string[] | undefined };
+    searchParams: { [key: string]: string | string[] | undefined };
+  }> {}
 
-//   return res.data;
-// };
-const DealerList = async () => {
-  // const dealer: DealerInterface[] = await getDealer();
+const getDealer = async (page: number) => {
+  const req = await fetch(
+    `http://localhost:3002/api/dealer?page=${page}&limit=10`,
+    {
+      method: "GET",
+      next: {
+        tags: ["dealers"],
+      },
+    }
+  );
+
+  const res = await req.json();
+
+  return res;
+};
+const DealerList = async (props: Props) => {
+  const dealer = await getDealer(Number(props?.searchParams?.page));
 
   return (
     <div>
-      {/* <Table<DealerInterface>
-        title="PROSPECT"
+      <Table<DealerInterface>
+        title="DEALER"
         totalDescription="This all Prospect list"
-        data={dealer}
+        data={dealer?.data}
         description="Prospect sangat keren"
-        totalData={100}
+        totalData={dealer?.total}
         tableRowComponent={[
           {
             component: "name",
@@ -30,7 +44,7 @@ const DealerList = async () => {
             title: "Address",
           },
         ]}
-      /> */}
+      />
     </div>
   );
 };

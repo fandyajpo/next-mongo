@@ -1,8 +1,8 @@
-import LoginForm from "@/components/form/LoginForm";
-import { Suspense } from "react";
+import { PropsWithChildren, Suspense } from "react";
 import Image from "next/image";
+interface Props extends PropsWithChildren {}
 
-const Login = () => {
+const Layout = (props: Props) => {
   const pageTitle = "Vespa Udayana";
   return (
     <section className="bg-white">
@@ -72,10 +72,7 @@ const Login = () => {
                 Eligendi nam dolorum aliquam, quibusdam aperiam voluptatum.
               </p>
             </div>
-
-            <Suspense fallback={<p>Loading</p>}>
-              <LoginForm />
-            </Suspense>
+            <Suspense fallback={<p>Loading</p>}>{props.children}</Suspense>
           </div>
         </main>
       </div>
@@ -83,4 +80,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Layout;
