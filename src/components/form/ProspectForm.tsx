@@ -1,6 +1,6 @@
 "use client";
 import { useFormState } from "react-dom";
-import Button from "../architect/Button";
+import Button from "@/components/architect/Button";
 import { createProspect, updateProspect } from "@/service/prospect";
 import { ProspectInterface } from "@/schema/prospect";
 import { FormResponse, Method } from "@/types";
@@ -52,6 +52,19 @@ const ProspectForm = (props: Props) => {
           id="name"
         />
       </div>
+
+      {/* <>
+        <label htmlFor="browser">Choose your browser from the list:</label>
+        <input list="browsers" name="browser" id="browser" />
+
+        <datalist id="browsers">
+          <option value="Edge" />
+          <option value="Firefox" />
+          <option value="Chrome" />
+          <option value="Opera" />
+          <option value="Safari" />
+        </datalist>
+      </> */}
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>

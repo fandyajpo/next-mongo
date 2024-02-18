@@ -1,7 +1,7 @@
 "use server";
 import { actionClient } from "@/lib/mongo";
 import { ProspectInterface, ProspectlModel } from "@/schema/prospect";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 export const createProspect = actionClient(
   async <T>(prevState: T, data: FormData) => {
@@ -87,18 +87,17 @@ export const updateProspect = actionClient(
 
 export const deleteProspect = actionClient(async (id: string) => {
   try {
-    console.log(id);
-    // const isExist = await ProspectlModel.findById(id);
+    const isExist = await ProspectlModel.findByIdAndDelete(id);
 
-    // revalidateTag("prospects");
+    revalidateTag("prospects");
+    // revalidatePath("/prospect");
 
-    // return {
-    //   message: "Success Create Prospect",
-    //   codeName: "SUCCESS",
-    // };
+    return {
+      message: "Success remove Prospect",
+      codeName: "SUCCESS",
+    };
   } catch (error) {
     return {
-      error: JSON.stringify(error, null, 2),
       message: "Internal Server Error",
       codeName: "INTERNAL_SERVER_ERROR",
     };

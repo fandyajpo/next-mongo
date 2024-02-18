@@ -4,6 +4,9 @@ import Modal from "./Modal";
 import { documentById } from "@/lib/functions";
 import { X } from "./Icon";
 import { deleteProspect } from "@/service/prospect";
+import Button from "@/components/architect/Button";
+import { FormResponse } from "@/types";
+import { useFormState } from "react-dom";
 type TableRowComponent<T> = {
   title: string;
   component: keyof T;
@@ -145,20 +148,28 @@ const Table = <T,>(props: Props<T>) => {
                                 ) : null}
                               </div>
                               <Modal id={fieldData?._id}>
-                                <button
-                                  type="button"
-                                  onClick={() =>
-                                    documentById(fieldData?._id)?.close?.()
-                                  }
-                                >
-                                  <X className="w-6 h-6 text-red-500" />
-                                </button>
-                                <button
-                                  type="button"
-                                  onClick={() => deleteProspect(fieldData?._id)}
-                                >
-                                  <p>Delete</p>
-                                </button>
+                                <div className="p-4 space-y-2">
+                                  <button
+                                    type="button"
+                                    onClick={() =>
+                                      documentById(fieldData?._id)?.close?.()
+                                    }
+                                  >
+                                    <X className="w-6 h-6 text-red-500" />
+                                  </button>
+                                  <p>Would you like to delete the data?</p>
+                                  <form
+                                    action={() =>
+                                      deleteProspect(fieldData?._id)
+                                    }
+                                  >
+                                    <Button
+                                      title="Delete"
+                                      type="submit"
+                                      className="inline-block w-full rounded-lg bg-black px-5 py-3 font-medium text-white sm:w-auto"
+                                    />
+                                  </form>
+                                </div>
                               </Modal>
                             </>
                           ) : null}
